@@ -1,8 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Quizz') }}
-        </h2>
+        <div class="flex justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Quizzes') }}
+            </h2>
+
+            <a class="primary-btn py-2 flex items-center gap-2" href="{{ route('quiz.create') }}">
+                @include('components.icons.add')
+                Add Quiz
+            </a>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -10,52 +17,39 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div>
-
-                        @php
-                            $i = 1;
-                        @endphp
-                        <div class="bg-gray-50 items-center gap-4 p-4 mb-3">
-                            <div class="mb-2 ">
-                                @foreach ($quizzs as $quiz)
-                                    <p class="py-2 flex w-1/2">Exam Name: {{ $quiz->name }}</p>
-                                @endforeach
-                            </div>
-                            {{-- <div class="flex">
-                                <p class="flex items-center gap-1">Total: <span
-                                        class=" text-sm radius-full flex justify-center items-center w-8 h-8">{{ count($quiz->questions) }}</span>
-                                </p>
-                                <p class="flex items-center gap-1">Correct: <span
-                                        class=" text-sm radius-full flex justify-center items-center w-8 h-8">{{ $count_correct_answer }}</span>
-                                </p>
-                                <p class="flex items-center gap-1">Wrong: <span
-                                        class=" text-sm radius-full flex justify-center items-center w-8 h-8">{{ $count_incorrect_answer }}</span>
-                                </p>
-                                <p class="flex items-center gap-1"> Percentage: <span
-                                        class=" text-sm radius-full flex justify-center items-center w-8 h-8">{{ round(($this->count_correct_answer * 100) / count($quiz->questions)) }}</span>
-                                </p>
-                            </div> --}}
-                        </div>
-                        {{-- @foreach ($quiz->questions as $question)
-                            <div
-                                class="border border-gray-300 mb-4 p-4  @if (array_key_exists($question->id, $correct_answers)) {{ $correct_answers[$question->id] ? 'bg-green-200' : 'bg-red-200' }} @endif}}">
-                                <h3 class=""> {{ $i++ }}. {{ $question->name }}</h3>
-                                <div class="flex gap-4">
-                                    @foreach ($answerOpitons as $option)
-                                        <div class="flex items-center pl-4  rounded">
-                                            <input wire:click="answerUpdate({{ $question->id }})"
-                                                @if (array_key_exists($question->id, $correct_answers)) disabled @endif wire:change="result"
-                                                wire:model="answer.{{ $question->id }}"
-                                                id="answer-{{ $option }}-{{ $question->id }}" type="radio"
-                                                value="{{ explode('_', $option)[1] }}"
-                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                                            <label for="answer-{{ $option }}-{{ $question->id }}"
-                                                class="w-full py-4 cursor-pointer ml-2 text-sm font-medium text-gray-900">{{ $question->$option }}</label>
+                        <table class="w-full table-auto">
+                            <tr class="bg-gray-200 rounded-t">
+                                <th class="text-left border px-4 py-1">Sl:</th>
+                                <th class="text-left border px-4 py-1">Quiz Name</th>
+                                <th class="text-center border px-4 py-1">Actions:</th>
+                            </tr>
+                            @foreach ($quizzs as $quiz)
+                                <tr>
+                                    <td class="text-left border px-4 py-1">{{ $quiz->id }}</td>
+                                    <td class="text-left border px-4 py-1">{{ $quiz->name }}</td>
+                                    
+                                    <td class="border px-4 py-1">
+                                        <div class="flex justify-center text-center items-center space-x-2">
+                                            <a class="bg-orange-600 text-white p-1 rounded" href="{{ route('quiz.show', $quiz->id) }}">
+                                                @include('components.icons.eye')
+                                            </a>
+                                            
+                                            <a class="bg-green-600 text-white p-1 rounded" href="{{ route('quiz.edit', $quiz->id) }}">
+                                                @include('components.icons.edit')
+                                            </a>
+                                            <form class="bg-red-600 text-white p-1 w-7 h-7 rounded">
+                                                <button type="submit">
+                                                    @include('components.icons.delete')
+                                                </button>
+                                            </form>
                                         </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endforeach --}}
+                                    </td>
+                                </tr>
+                            @endforeach
+                    
+                        </table>
                     </div>
+                    
                 </div>
             </div>
         </div>

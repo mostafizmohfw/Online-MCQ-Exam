@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Quiz;
 use App\Models\Category;
+use App\Models\Question;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreQuizRequest;
 use App\Http\Requests\UpdateQuizRequest;
 
@@ -48,9 +50,13 @@ class QuizController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Quiz $quiz)
+    public function show(Request $request, $id)
     {
-        //
+        $quiz = Quiz::findOrFail($id);
+        
+        return view('quizz.show',[
+            'quiz' => $quiz,            
+        ]);
     }
 
     /**
@@ -58,15 +64,33 @@ class QuizController extends Controller
      */
     public function edit(Quiz $quiz)
     {
-        //
+        $categories = Category::get();
+        return view('quizz.edit',[
+            'quiz' => $quiz,
+            'categories' => $categories,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdateQuizRequest $request, Quiz $quiz)
-    {
-        //
+    {   
+        $quiz_data = $request->all();
+       // dd($quiz_data['id']);
+        $category_id = $quiz_data['category_id'];
+        $total_question = $quiz_data['total_question'];
+        $question_by_category = Question::where('category', 'Animals')
+            ->inRandomOrder()
+            ->take($total_question)
+            ->get();
+        foreach($question_by_category as $question){
+            //dd($question);
+            $quiz->questions()->attach($question);
+        }
+        
+        flash()->addSuccess('Question added');
+        return redirect()->route('quiz.edit',  $quiz_data['id']);
     }
 
     /**

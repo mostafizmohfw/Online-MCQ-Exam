@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.container {
+    width: 800px;
+    @apply mx-auto;
+}
+
+.primary-btn {
+    @apply bg-teal-500 hover:bg-teal-700 text-white font-bold px-4 rounded;
+}
+
+.primary-label {
+    @apply uppercase block mb-2 text-sm font-bold text-gray-700;
+}
+
+.primary-input {
+    @apply block border-gray-200 px-4 py-3 leading-tight text-gray-700 border rounded appearance-none;
+}

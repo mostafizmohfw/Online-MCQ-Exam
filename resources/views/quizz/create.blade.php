@@ -1,8 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Quizz Create') }}
-        </h2>
+        <div class="flex justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Quiz Create') }}
+            </h2>
+
+            <a class="primary-btn py-2 flex items-center gap-2" href="{{ route('quiz.index') }}">
+                @include('components.icons.list')
+                List
+            </a>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -12,24 +19,10 @@
                     <div>
                         <form action="{{ route('quiz.store') }}" method="post">
                             @csrf
-                            <div class="text-gray-500 flex gap-3">
-                                <label>Name: </label>
-                                <input type="text" name="name" id="name">
-                            </div>
-
-                            {{-- <div class="text-gray-500 flex gap-3">
-                                <label>Select Category: </label>
-                                <select class="">
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div> --}}
-
-                            <div class="text-gray-500">
-                                <label></label>
-                                <button type="submit"
-                                    class="text-white bg-teal-500 py-2 px-4 mt-4 rounded">Create</button>
+                            <div class="text-gray-500 ">
+                                <label class="primary-label">Name: </label>
+                                <input class="primary-input w-full mb-3" type="text" name="name"/>
+                                <button type="submit" class="primary-btn py-2">Create</button>
                             </div>
                         </form>
 
