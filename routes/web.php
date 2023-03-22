@@ -19,6 +19,7 @@ use App\Http\Controllers\ProfileController;
 
 
 Route::get('category', [ScriptManager::class, 'getCategoryData']);
+Route::post('quiz-submit', [QuizController::class, 'quizSubmit'])->name('quiz.submit');
 Route::resource('quiz', QuizController::class);
 
 Route::get('/', function () {
