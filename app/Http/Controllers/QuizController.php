@@ -137,7 +137,7 @@ class QuizController extends Controller
         ];
 
         Mail::send('emails.result_notification', $messageData, function($message) use ($email){
-                $message->to($email)->subject('Check Your Result');
+                $message->to($email)->subject('Check our Result');
             });
 
         flash()->addSuccess('Exam Completed, Check your Mail');

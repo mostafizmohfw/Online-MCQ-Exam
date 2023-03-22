@@ -23,7 +23,6 @@ Route::get('/', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/pdf', [PdfCOntroller::class, 'generatePd']);
     Route::get('category', [ScriptManager::class, 'getCategoryData']);
     Route::post('quiz-submit', [QuizController::class, 'quizSubmit'])->name('quiz.submit');
     Route::resource('quiz', QuizController::class);
