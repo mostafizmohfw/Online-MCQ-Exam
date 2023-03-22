@@ -16,7 +16,7 @@ class ResultController extends Controller
 
     public function show($id){
         $result = Result::with('quizzs')->findOrFail($id);
-        // dd($result);
+        //dd($result);
         return view('result.show', [
             'result' => $result
         ]);

@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('score');
             $table->string('quiz_id');
-            $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();            
+            $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
 
           Schema::create('quiz_result', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('question_id');
+            $table->unsignedBigInteger('quiz_id');
             $table->unsignedBigInteger('result_id');
             // $table->unsignedBigInteger('quiz_id');
             // $table->string('submitted_answer');
@@ -30,7 +30,7 @@ return new class extends Migration
 
             $table->foreign('result_id')->references('id')->on('results')->onDelete('cascade');
             // $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('cascade');
-            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
+            $table->foreign('quiz_id')->references('id')->on('questions')->onDelete('cascade');
         });
 
     }

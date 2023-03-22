@@ -4,6 +4,10 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Result Show') }}
             </h2>
+
+            <a class="primary-btn py-2 flex items-center gap-2" href="{{ route('generate.pdf') }}">
+                @include('components.icons.print')
+            </a>
         </div>
     </x-slot>
 
@@ -12,19 +16,10 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div>
-                        <table class="w-full table-auto">
-                            <tr class="bg-gray-200 rounded-t">
-                                <td class="text-left border px-4 py-1">Sl:</td>                    
-                                <td class="text-left border px-4 py-1">{{ $result->id }}</td>                    
-                            </tr>  
-                            <tr class="bg-gray-200 rounded-t">
-                                <td class="text-left border px-4 py-1">Name:</td>                    
-                                <td class="text-left border px-4 py-1">{{ $result->quiz_id }}</td>                    
-                            </tr> 
+                        <h2 class="text-center mb-3">Welcome {{ $result->user->name }}, your result is ready.</h2>
 
-                        </table>
                     </div>
-                    
+
                 </div>
             </div>
         </div>

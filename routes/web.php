@@ -2,6 +2,7 @@
 
 use App\Manager\ScriptManager;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\ProfileController;
@@ -17,22 +18,19 @@ use App\Http\Controllers\ProfileController;
 |
 */
 
-
-
-Route::get('category', [ScriptManager::class, 'getCategoryData']);
-Route::post('quiz-submit', [QuizController::class, 'quizSubmit'])->name('quiz.submit');
-Route::resource('quiz', QuizController::class);
-Route::resource('result', ResultController::class);
-
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/pdf', [PdfCOntroller::class, 'generatePd']);
+    Route::get('category', [ScriptManager::class, 'getCategoryData']);
+    Route::post('quiz-submit', [QuizController::class, 'quizSubmit'])->name('quiz.submit');
+    Route::resource('quiz', QuizController::class);
+    Route::resource('result', ResultController::class);
+
+    Route::get('/pdf', [PdfController::class, 'certificate'])->name('generate.pdf');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

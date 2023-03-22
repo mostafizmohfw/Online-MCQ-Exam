@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Quiz;
+use App\Models\User;
 use App\Models\Result;
 use App\Models\Category;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\StoreQuizRequest;
 use App\Http\Requests\UpdateQuizRequest;
 
@@ -79,9 +81,9 @@ class QuizController extends Controller
     public function update(UpdateQuizRequest $request, Quiz $quiz)
     {
         $quiz_data = $request->all();
-        
+
         $category_id = $quiz_data['category_id'];
-       
+
         $category = Category::findOrFail($category_id);
         $category_name = $category->name;
         $total_question = $quiz_data['total_question'];
@@ -112,19 +114,33 @@ class QuizController extends Controller
         $submitted_answer = $request->input('submitted_answer');
         $result_data = $request->all();
         $result_data['user_id'] = auth()->id();
-        
+
         $result = Result::create([
             'score' => '5',
             'user_id' => $result_data['user_id'],
             'quiz_id' => $result_data['quiz_id'],
-        ]);        
-        $quiz_question_by_result = Quiz::where('id', $result_data['quiz_id'])->with('questions')->get();  
+        ]);
+        $quiz_question_by_result = Quiz::where('id', $result_data['quiz_id'])->with('questions')->get();
         // dd($quiz_question_by_result);
-        $result_id = $result->id;      
-        $finded_result = Result::find($result_id);       
+        $result_id = $result->id;
+        $finded_result = Result::find($result_id);
         $finded_result->quizzs()->attach($quiz_question_by_result);
-        
-        flash()->addSuccess('Result Submitted for Review');
-        return redirect()->route('quiz.index');
+
+        $user = User::findOrFail($result_data['user_id']);
+
+        $email = $user->email;
+        $name = $user->name;
+        $messageData = [
+            'email'=>$email,
+            'name'=>$name,
+            'id'=> $result_id,
+        ];
+
+        Mail::send('emails.result_notification', $messageData, function($message) use ($email){
+                $message->to($email)->subject('Check Your Result');
+            });
+
+        flash()->addSuccess('Exam Completed, Check your Mail');
+        return redirect()->route('result.show', $result_id);
     }
 }
