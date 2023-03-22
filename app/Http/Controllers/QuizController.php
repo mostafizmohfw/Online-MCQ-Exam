@@ -79,15 +79,18 @@ class QuizController extends Controller
     public function update(UpdateQuizRequest $request, Quiz $quiz)
     {
         $quiz_data = $request->all();
-       // dd($quiz_data['id']);
+        
         $category_id = $quiz_data['category_id'];
+       
+        $category = Category::findOrFail($category_id);
+        $category_name = $category->name;
         $total_question = $quiz_data['total_question'];
-        $question_by_category = Question::where('category', 'Animals')
+        $question_by_category = Question::where('category', $category_name)
             ->inRandomOrder()
             ->take($total_question)
             ->get();
         foreach($question_by_category as $question){
-            //dd($question);
+            // dd($question);
             $quiz->questions()->attach($question);
         }
 
@@ -105,10 +108,22 @@ class QuizController extends Controller
 
 
     public function quizSubmit(Request $request){
+
+        $submitted_answer = $request->input('submitted_answer');
         $result_data = $request->all();
         $result_data['user_id'] = auth()->id();
-        dd($result_data);
-        Result::create([$result_data]);
+        
+        $result = Result::create([
+            'score' => '5',
+            'user_id' => $result_data['user_id'],
+            'quiz_id' => $result_data['quiz_id'],
+        ]);        
+        $quiz_question_by_result = Quiz::where('id', $result_data['quiz_id'])->with('questions')->get();  
+        // dd($quiz_question_by_result);
+        $result_id = $result->id;      
+        $finded_result = Result::find($result_id);       
+        $finded_result->quizzs()->attach($quiz_question_by_result);
+        
         flash()->addSuccess('Result Submitted for Review');
         return redirect()->route('quiz.index');
     }

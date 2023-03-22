@@ -3,6 +3,7 @@
 use App\Manager\ScriptManager;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\ResultController;
 use App\Http\Controllers\ProfileController;
 
 /*
@@ -21,6 +22,7 @@ use App\Http\Controllers\ProfileController;
 Route::get('category', [ScriptManager::class, 'getCategoryData']);
 Route::post('quiz-submit', [QuizController::class, 'quizSubmit'])->name('quiz.submit');
 Route::resource('quiz', QuizController::class);
+Route::resource('result', ResultController::class);
 
 Route::get('/', function () {
     return view('welcome');

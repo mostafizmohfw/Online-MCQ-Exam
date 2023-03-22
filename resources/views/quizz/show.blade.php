@@ -31,42 +31,44 @@
                             <div class="mt-4">
                                 <h3 class="bg-orange-200 p-2 rounded">
                                     {{ $i++ }}. {!! $question->question !!}
-                                    <input type="hidden" name="question_id" value="{{ $question->id }}" />
+                                    
+                                    <input type="hidden" name="questions_id[{{ $question->id }}]" value="{{ $question->id }}">
+
 
                                 </h3>
                                 <div class="flex bg-gray-200">
                                     <div class="flex items-center pl-4 rounded">
-                                        <input id="{{ $question->incorrect_answers_1 }}" type="radio"
-                                            name="{{ $question->id }}" value="{{ $question->incorrect_answers_1 }}"
+                                        <input id="option-{{ $question->incorrect_answers_1 }}" type="radio"
+                                            name="submitted_answer[{{ $question->id }}]" value="{{ $question->incorrect_answers_1 }}"
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                                        <label for="{{ $question->incorrect_answers_1 }}"
-                                            class="w-full py-4 cursor-pointer ml-2 text-sm font-medium text-gray-900">{{ $question->incorrect_answers_1 }}</label>
+                                        <label for="option-{{ $question->incorrect_answers_1 }}"
+                                            class="w-full py-4 cursor-pointer ml-2 text-sm font-medium text-gray-900">{!! $question->incorrect_answers_1 !!}</label>
                                     </div>
                                     <div class="flex items-center pl-4 rounded">
-                                        <input id="{{ $question->incorrect_answers_2 }}" type="radio"
-                                            name="{{ $question->id }}" value="{{ $question->incorrect_answers_2 }}"
+                                        <input id="option-{{ $question->incorrect_answers_2 }}" type="radio"
+                                            name="submitted_answer[{{ $question->id }}]" value="{{ $question->incorrect_answers_2 }}"
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                                        <label for="{{ $question->incorrect_answers_2 }}"
-                                            class="w-full py-4 cursor-pointer ml-2 text-sm font-medium text-gray-900">{{ $question->incorrect_answers_2 }}</label>
+                                        <label for="option-{{ $question->incorrect_answers_2 }}"
+                                            class="w-full py-4 cursor-pointer ml-2 text-sm font-medium text-gray-900">{!! $question->incorrect_answers_2 !!}</label>
                                     </div>
                                     <div class="flex items-center pl-4 rounded">
-                                        <input id="{{ $question->incorrect_answers_3 }}" type="radio"
-                                            name="{{ $question->id }}" value="{{ $question->incorrect_answers_3 }}"
+                                        <input id="option-{{ $question->incorrect_answers_3 }}" type="radio"
+                                            name="submitted_answer[{{ $question->id }}]" value="{{ $question->incorrect_answers_3 }}"
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                                        <label for="{{ $question->incorrect_answers_3 }}"
-                                            class="w-full py-4 cursor-pointer ml-2 text-sm font-medium text-gray-900">{{ $question->incorrect_answers_3 }}</label>
+                                        <label for="option-{{ $question->incorrect_answers_3 }}"
+                                            class="w-full py-4 cursor-pointer ml-2 text-sm font-medium text-gray-900">{!! $question->incorrect_answers_3 !!}</label>
                                     </div>
                                     <div class="flex items-center pl-4 rounded">
-                                        <input id="{{ $question->correct_answer }}" type="radio"
-                                            name="{{ $question->id }}" value="{{ $question->correct_answer }}"
+                                        <input id="option-{{ $question->correct_answer }}" type="radio"
+                                            name="submitted_answer[{{ $question->id }}]" value="{{ $question->correct_answer }}"
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                                        <label for="{{ $question->correct_answer }}"
-                                            class="w-full py-4 cursor-pointer ml-2 text-sm font-medium text-gray-900">{{ $question->correct_answer }}</label>
+                                        <label for="option-{{ $question->correct_answer }}"
+                                            class="w-full py-4 cursor-pointer ml-2 text-sm font-medium text-gray-900">{!! $question->correct_answer !!}</label>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
-                        <button type="submit" class="primary-btn py-2 mt-4">Submit</button>
+                        <button type="submit" class="primary-btn py-2 mt-4">Result</button>
                     </form>
                 </div>
             </div>
