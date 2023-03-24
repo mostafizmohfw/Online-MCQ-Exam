@@ -26,7 +26,7 @@
                         @foreach ($quiz->questions as $question)
                             <fieldset id="{{ $question->id }}" class="mt-4">
                                 <h3 class="bg-orange-200 p-2 rounded">
-                                    <p class="">Q{{ $i++ }}. {{ $question->question }}</p>
+                                    <p class="">Q{{ $i++ }}. {!! $question->question !!}</p>
                                 </h3>
                                 <div class="flex bg-gray-200">
                                     <div class="flex items-center pl-4 rounded">

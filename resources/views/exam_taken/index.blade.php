@@ -17,11 +17,11 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div>
-                        <p class="text-center text-red-600 ">Exam Aready Taken!!</p>
-                        <p class="text-center mt-4"> Please click here to take new exam <br><br>
+                        <p class="text-center text-red-600 ">Exam already taken!!</p>
+                        <p class="text-center mt-4">Check your result <br><br>
                             <a class="py-2 primary-btn text-center uppercase w-28 mt-4"
-                                href="{{ route('quiz.index') }}">
-                                view all
+                                href="{{ route('result.index') }}">
+                                View Result
                             </a>
                         </p>
                     </div>

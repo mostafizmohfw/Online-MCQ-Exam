@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('quiz', QuizController::class);
     Route::resource('result', ResultController::class);
 
-    Route::get('/pdf/{id}', [PdfController::class, 'certificate'])->name('generate.pdf');
+    Route::get('/certificate-download/pdf/{id}', [PdfController::class, 'certificate'])->name('generate.pdf');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

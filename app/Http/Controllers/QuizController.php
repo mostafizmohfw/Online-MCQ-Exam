@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Quiz;
+use App\Models\Test;
 use App\Models\User;
 use App\Models\Result;
 use App\Models\Category;
@@ -117,31 +118,43 @@ class QuizController extends Controller
 
     public function quizSubmit(Request $request){
 
-        $points = 0;
-        $totalQuestions= 5;
-        $percentage = 0;
-
         $result_data = $request->all();
+        $points = 0;
+        $percentage = 0;
+        $quiz = Quiz::find($result_data['quiz_id']);
+        $totalQuestions = $quiz->questions()->count();
 
         foreach($result_data as $questoionId => $userAnswer){
 
             if(is_numeric($questoionId)){
-
                 $questionInfo =  Question::where('id', $questoionId)->get();
 
                 $correctAnswer = $questionInfo[0]->correct_answer;
+
                 if ($correctAnswer === $userAnswer) {
                     $points++;
                 }
                 else{
                     $points = ($points-0.25);
                 }
+
+                $percentage = ($points/$totalQuestions)*100;
+
+                foreach ($questionInfo as $qid => $question_answer) {
+                    $answered_details = Test::create([
+                        'question_id' => $question_answer->id,
+                        'question' => $question_answer->question,
+                        'correct_answer' => $question_answer->correct_answer,
+                        'user_answered' => $userAnswer,
+                        'quiz_id'=> $result_data['quiz_id'],
+                        // 'result_id'=> $result->id,
+                        'user_id'=> auth()->id(),
+                    ]);
+                }
             }
         }
 
-        $percentage = ($points/$totalQuestions)*100;
-
-        $result_data['user_id'] = auth()->id();
+         $result_data['user_id'] = auth()->id();
 
         $result = Result::create([
             'score' => $points,
@@ -149,11 +162,10 @@ class QuizController extends Controller
             'user_id' => $result_data['user_id'],
             'quiz_id' => $result_data['quiz_id'],
         ]);
+
         $quiz_question_by_result = Quiz::where('id', $result_data['quiz_id'])->with('questions')->get();
-        // dd($quiz_question_by_result);
         $result_id = $result->id;
         $finded_result = Result::find($result_id);
-        // dd($finded_result->score);
         $finded_result->quizzs()->attach($quiz_question_by_result);
 
         $user = User::findOrFail($result_data['user_id']);
@@ -169,7 +181,7 @@ class QuizController extends Controller
         ];
 
         Mail::send('emails.result_notification', $messageData, function($message) use ($email){
-                $message->to($email)->subject('Check our Result');
+                $message->to($email)->subject('Check your result');
             });
 
         flash()->addSuccess('Exam Completed, Check your Mail');
