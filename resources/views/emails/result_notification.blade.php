@@ -15,10 +15,10 @@
             <p class="mb-3"><span>Dear</span> <span class="text-orange-500">{{ $name }}</span>,</p>
         </div>
         <div class="text-justify">
-            You have successsfully complete the quiz.
-            <br>
-            Please wait for final result. dont forget to check your result
-            @ <a href="{{ route('result.show', $id) }}">Check Result and Download Certificate</a>
+            You have successsfully complete the quiz.<br />
+            Your score is {{ $score }} and Marks Percentage is {{ $percentage }}.<br />
+            Don't forget to download your certificate.<br />
+            Login in and <a href="{{ route('generate.pdf', $id) }}">Click the link</a> to download certificate.
         </div>
         <div class="mt-3">
             <p>

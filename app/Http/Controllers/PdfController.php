@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use \Mpdf\Mpdf as PDF;
+use App\Models\Result;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use \Mpdf\Mpdf as PDF;
 
 class PdfController extends Controller
 {
-    public function certificate()
+    public function certificate($id)
     {
+        $result= Result::findOrFail($id);
+        // dd($result);
         $name = "certificate.pdf";
 
         $document = new PDF( [
@@ -27,7 +30,9 @@ class PdfController extends Controller
             'Content-Disposition' => 'inline; filename="'.$name.'"'
         ];
 
-        $document->WriteHTML(view('certificate.generate_pdf'));
+        $document->WriteHTML(view('certificate.generate_pdf', [
+            'result' => $result
+        ]));
 
         Storage::disk('public')->put($name, $document->Output($name, "S"));
 

@@ -18,9 +18,10 @@ return new class extends Migration
             $table->string('type');
             $table->string('difficulty');
             $table->string('correct_answer');
-            $table->string('incorrect_answers_1');
-            $table->string('incorrect_answers_2');
-            $table->string('incorrect_answers_3');
+            $table->string('answer_1');
+            $table->string('answer_2');
+            $table->string('answer_3');
+            $table->string('answer_4');
             $table->timestamps();
         });
     }

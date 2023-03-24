@@ -57,10 +57,16 @@ class QuizController extends Controller
     public function show(Request $request, $id)
     {
         $quiz = Quiz::findOrFail($id);
-
-        return view('quizz.show',[
+        $has_exam_taken = Result::where('user_id', auth()->id())->where('quiz_id', $id)->exists();
+        if(!$has_exam_taken){
+            return view('quizz.show',[
             'quiz' => $quiz,
-        ]);
+            ]);
+        }
+        else{
+            return view('exam_taken.index');
+        }
+
     }
 
     /**
@@ -111,12 +117,35 @@ class QuizController extends Controller
 
     public function quizSubmit(Request $request){
 
-        $submitted_answer = $request->input('submitted_answer');
+        $points = 0;
+        $totalQuestions= 5;
+        $percentage = 0;
+
         $result_data = $request->all();
+
+        foreach($result_data as $questoionId => $userAnswer){
+
+            if(is_numeric($questoionId)){
+
+                $questionInfo =  Question::where('id', $questoionId)->get();
+
+                $correctAnswer = $questionInfo[0]->correct_answer;
+                if ($correctAnswer === $userAnswer) {
+                    $points++;
+                }
+                else{
+                    $points = ($points-0.25);
+                }
+            }
+        }
+
+        $percentage = ($points/$totalQuestions)*100;
+
         $result_data['user_id'] = auth()->id();
 
         $result = Result::create([
-            'score' => '5',
+            'score' => $points,
+            'percentage' => $percentage,
             'user_id' => $result_data['user_id'],
             'quiz_id' => $result_data['quiz_id'],
         ]);
@@ -124,6 +153,7 @@ class QuizController extends Controller
         // dd($quiz_question_by_result);
         $result_id = $result->id;
         $finded_result = Result::find($result_id);
+        // dd($finded_result->score);
         $finded_result->quizzs()->attach($quiz_question_by_result);
 
         $user = User::findOrFail($result_data['user_id']);
@@ -134,6 +164,8 @@ class QuizController extends Controller
             'email'=>$email,
             'name'=>$name,
             'id'=> $result_id,
+            'score'=> $finded_result->score,
+            'percentage'=> $finded_result->percentage,
         ];
 
         Mail::send('emails.result_notification', $messageData, function($message) use ($email){

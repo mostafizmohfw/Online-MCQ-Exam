@@ -18,3 +18,7 @@
 .primary-input {
     @apply block border-gray-200 px-4 py-3 leading-tight text-gray-700 border rounded appearance-none;
 }
+
+.bg_image{
+    background-image: url('../../public/certificate/certificate_bg.png');
+}

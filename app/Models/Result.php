@@ -14,12 +14,13 @@ class Result extends Model
 
     protected $fillable = [
       'score',
+      'percentage',
       'user_id',
       'quiz_id',
       'submitted_answer'
     ];
 
-    public function quizzs() 
+    public function quizzs()
     {
       return $this->belongsToMany(Quiz::class);
     }
@@ -32,5 +33,10 @@ class Result extends Model
     public function questions()
     {
         return $this->belongsToMany(Question::class);
+    }
+
+    public function quiz()
+    {
+      return $this->belongsTo(Quiz::class);
     }
 }

@@ -16,19 +16,24 @@
                             <tr class="bg-gray-200 rounded-t">
                                 <th class="text-left border px-4 py-1">Sl:</th>
                                 <th class="text-left border px-4 py-1">Student</th>
+                                <th class="text-left border px-4 py-1">Quiz</th>
                                 <th class="text-left border px-4 py-1">Score</th>
+                                <th class="text-left border px-4 py-1">Percentage</th>
                                 <th class="text-center border px-4 py-1">Actions:</th>
                             </tr>
                             @foreach ($results as $result)
                                 <tr>
                                     <td class="text-left border px-4 py-1">{{ $result->id }}</td>
                                     <td class="text-left border px-4 py-1">{{ $result->user->name }}</td>
+                                    <td class="text-left border px-4 py-1">{{ $result->quiz->name }}</td>
                                     <td class="text-left border px-4 py-1">{{ $result->score }}</td>
+                                    <td class="text-left border px-4 py-1">{{ $result->percentage }}</td>
                                     <td class="border px-4 py-1">
                                         <div class="flex justify-center text-center items-center space-x-2">
-                                            <a class="bg-green-600 text-white p-1 rounded" href="{{ route('result.show', $result->id) }}">
+                                            <a class="bg-green-600 text-white p-1 rounded"
+                                                href="{{ route('result.show', $result->id) }}">
                                                 @include('components.icons.eye')
-                                            </a>                                            
+                                            </a>
                                             <form class="bg-red-600 text-white p-1 w-7 h-7 rounded">
                                                 <button type="submit">
                                                     @include('components.icons.delete')
@@ -38,10 +43,10 @@
                                     </td>
                                 </tr>
                             @endforeach
-                    
+
                         </table>
                     </div>
-                    
+
                 </div>
             </div>
         </div>

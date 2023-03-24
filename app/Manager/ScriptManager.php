@@ -24,10 +24,11 @@ class ScriptManager {
                 $question_data['category'] = $question['category'];
                 $question_data['type'] = $question['type'];
                 $question_data['difficulty'] = $question['difficulty'];
-                $question_data['correct_answer'] = $question['correct_answer'];               
-                $question_data['incorrect_answers_1'] = $question['incorrect_answers'][0];
-                $question_data['incorrect_answers_2'] = $question['incorrect_answers'][1];
-                $question_data['incorrect_answers_3'] = $question['incorrect_answers'][2];
+                $question_data['correct_answer'] = $question['correct_answer'];
+                $question_data['answer_1'] = $question['incorrect_answers'][0];
+                $question_data['answer_2'] = $question['incorrect_answers'][1];
+                $question_data['answer_3'] = $question['incorrect_answers'][2];
+                $question_data['answer_4'] = $question['correct_answer'];
                 Question::create($question_data);
             }
         }

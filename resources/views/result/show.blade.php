@@ -5,7 +5,7 @@
                 {{ __('Result Show') }}
             </h2>
 
-            <a class="primary-btn py-2 flex items-center gap-2" href="{{ route('generate.pdf') }}">
+            <a class="primary-btn py-2 flex items-center gap-2" href="{{ route('generate.pdf', $result->id) }}">
                 @include('components.icons.print')
             </a>
         </div>
@@ -17,7 +17,9 @@
                 <div class="p-6 text-gray-900">
                     <div>
                         <h2 class="text-center mb-3">Welcome {{ $result->user->name }}, your result is ready.</h2>
-
+                        <div class="text-center"<p>Your marks {{ $result->score }}</p>
+                            <p>Your have got {{ $result->percentage }}% marks</p>
+                        </div>
                     </div>
 
                 </div>

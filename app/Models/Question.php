@@ -16,8 +16,9 @@ class Question extends Model
         'question',
         'difficulty',
         'correct_answer',
-        'incorrect_answers_1',
-        'incorrect_answers_2',
-        'incorrect_answers_3',
+        'answer_1',
+        'answer_2',
+        'answer_3',
+        'answer_4'
     ];
 }
