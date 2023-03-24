@@ -16,9 +16,16 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div>
-                        <h2 class="text-center mb-3">Welcome {{ $result->user->name }}, your result is ready.</h2>
-                        <div class="text-center"<p>Your got {{ $result->score }} marks.</p>
-                            <p>Your archieved {{ $result->percentage }}% marks.</p>
+                        <h2 class="text-center mb-3">Welcome <span
+                                class="font-bold text-cyan-600 text-lg">{{ $result->user->name }}</span>, your result is
+                            ready.
+                        </h2>
+                        <div class="text-center"<p>Your got <span
+                                class="text-orange-500 italic font-extrabold text-xl">{{ $result->score }}</span> marks.
+                            </p>
+                            <p>Your archieved <span
+                                    class="text-orange-500 italic font-extrabold text-xl">{{ $result->percentage }}%</span>
+                                marks.</p>
                         </div>
                     </div>
                 </div>
@@ -33,13 +40,36 @@
                     @endphp
                     @foreach ($answered_questions as $question)
                         <div class="">
-                            <p class="px-5 py-2">Q{{ $i++ }}. {!! $question->question !!}</p>
+                            <p class="px-5 py-2 bg-orange-100">Q{{ $i++ }}. {!! $question->question !!}</p>
                             <div class="ml-10">
-                                <p
-                                    class="px-5 py-2 @if ($question->user_answered == $question->correct_answer) text-green-600 @else text-red-600 @endif">
-                                    Answered:
-                                    {!! $question->user_answered !!}</p>
-                                <p class="px-5 py-2 text-orange-400">Correct Answer: {!! $question->correct_answer !!}</p>
+                                @if ($question->user_answered == $question->correct_answer)
+                                    <p class="px-5 py-2 text-green-600 font-bold flex gap-1"> <svg
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        Correct Answer:
+                                        {!! $question->correct_answer !!}</p>
+                                @else
+                                    <p class="px-5 py-2 text-green-600 flex gap-1"> <svg
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg> Correct Answer:
+                                        {!! $question->correct_answer !!}</p>
+                                    <p
+                                        class="px-5 py-2 flex gap-1 @if ($question->user_answered == $question->correct_answer) text-green-600 @else text-red-600 @endif">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        You Answered:
+                                        {!! $question->user_answered !!}
+                                    </p>
+                                @endif
                             </div>
                         </div>
                     @endforeach
