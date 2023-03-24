@@ -21,35 +21,45 @@
                             <tr class="bg-gray-200 rounded-t">
                                 <th class="text-left border px-4 py-1">Sl:</th>
                                 <th class="text-left border px-4 py-1">Quiz Name</th>
-                                <th class="text-center border px-4 py-1">Actions:</th>
+                                <th class="text-left border px-4 py-1">Add Question</th>
+                                <th class="text-left border px-4 py-1">Start Exam:</th>
+                                <th class="text-left border px-4 py-1">Remove:</th>
                             </tr>
                             @foreach ($quizzs as $quiz)
                                 <tr>
                                     <td class="text-left border px-4 py-1">{{ $quiz->id }}</td>
                                     <td class="text-left border px-4 py-1">{{ $quiz->name }}</td>
-                                    
+                                    <td class="text-left border px-4 py-1">
+                                        <div class="flex jtext-left items-center space-x-2">
+                                            <a class="bg-green-600 text-white py-1 px-2 rounded"
+                                                href="{{ route('quiz.edit', $quiz->id) }}">
+                                                Add Question
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td class="text-left border px-4 py-1">
+                                        <div class="flex text-left items-center space-x-2">
+                                            <a class="bg-orange-600 text-white py-1 px-2 rounded"
+                                                href="{{ route('quiz.show', $quiz->id) }}">
+                                                Start
+                                            </a>
+                                        </div>
+                                    </td>
                                     <td class="border px-4 py-1">
-                                        <div class="flex justify-center text-center items-center space-x-2">
-                                            <a class="bg-orange-600 text-white p-1 rounded" href="{{ route('quiz.show', $quiz->id) }}">
-                                                @include('components.icons.eye')
-                                            </a>
-                                            
-                                            <a class="bg-green-600 text-white p-1 rounded" href="{{ route('quiz.edit', $quiz->id) }}">
-                                                @include('components.icons.edit')
-                                            </a>
-                                            <form class="bg-red-600 text-white p-1 w-7 h-7 rounded">
+                                        <div class="flex text-left items-center space-x-2">
+                                            <form class="bg-red-600 text-white p-1 px-2 rounded">
                                                 <button type="submit">
-                                                    @include('components.icons.delete')
+                                                    Delete
                                                 </button>
                                             </form>
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
-                    
+
                         </table>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
