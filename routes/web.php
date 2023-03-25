@@ -26,6 +26,8 @@ Route::middleware('auth')->group(function () {
     Route::get('category', [ScriptManager::class, 'getCategoryData']);
     Route::post('quiz-submit', [QuizController::class, 'quizSubmit'])->name('quiz.submit');
     Route::resource('quiz', QuizController::class);
+    Route::get('add-question/{id}', [QuizController::class, 'viewAddQuestion'])->name('viewAddQuestion');
+    Route::post('add-question', [QuizController::class, 'addQuestion'])->name('add.question');
     Route::resource('result', ResultController::class);
 
     Route::get('/certificate-download/pdf/{id}', [PdfController::class, 'certificate'])->name('generate.pdf');

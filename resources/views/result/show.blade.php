@@ -23,7 +23,7 @@
                         <div class="text-center"<p>Your got <span
                                 class="text-orange-500 italic font-extrabold text-xl">{{ $result->score }}</span> marks.
                             </p>
-                            <p>Your archieved <span
+                            <p>You archieved <span
                                     class="text-orange-500 italic font-extrabold text-xl">{{ $result->percentage }}%</span>
                                 marks.</p>
                         </div>
@@ -50,15 +50,16 @@
                                                 d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                         Correct Answer:
-                                        {!! $question->correct_answer !!}</p>
-                                @else
+                                        {!! $question->correct_answer !!}
+                                    </p>
                                     <p class="px-5 py-2 text-green-600 flex gap-1"> <svg
                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg> Correct Answer:
-                                        {!! $question->correct_answer !!}</p>
+                                        {!! $question->correct_answer !!}
+                                    </p>
                                     <p
                                         class="px-5 py-2 flex gap-1 @if ($question->user_answered == $question->correct_answer) text-green-600 @else text-red-600 @endif">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

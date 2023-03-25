@@ -8,7 +8,9 @@ use App\Models\User;
 use App\Models\Result;
 use App\Models\Category;
 use App\Models\Question;
+use App\Jobs\SendResultMail;
 use Illuminate\Http\Request;
+use App\Mail\ResultNotifyMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\StoreQuizRequest;
@@ -21,7 +23,7 @@ class QuizController extends Controller
      */
     public function index()
     {
-        $quizzs = Quiz::all();
+        $quizzs = Quiz::with('questions')->get();
         // dd($quizzs);
         return view('quizz.index', [
             'quizzs' => $quizzs,
@@ -57,11 +59,15 @@ class QuizController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $quiz = Quiz::findOrFail($id);
+        $quiz = Quiz::with('questions')->findOrFail($id);
+
+        $total_questions = $quiz->questions->count();
+        $duration = (($total_questions*60)/100);
         $has_exam_taken = Result::where('user_id', auth()->id())->where('quiz_id', $id)->exists();
         if(!$has_exam_taken){
             return view('quizz.show',[
             'quiz' => $quiz,
+            'duration' => $duration
             ]);
         }
         else{
@@ -75,10 +81,8 @@ class QuizController extends Controller
      */
     public function edit(Quiz $quiz)
     {
-        $categories = Category::get();
         return view('quizz.edit',[
             'quiz' => $quiz,
-            'categories' => $categories,
         ]);
     }
 
@@ -87,24 +91,13 @@ class QuizController extends Controller
      */
     public function update(UpdateQuizRequest $request, Quiz $quiz)
     {
+
         $quiz_data = $request->all();
+        $quiz->update($quiz_data);
 
-        $category_id = $quiz_data['category_id'];
-
-        $category = Category::findOrFail($category_id);
-        $category_name = $category->name;
-        $total_question = $quiz_data['total_question'];
-        $question_by_category = Question::where('category', $category_name)
-            ->inRandomOrder()
-            ->take($total_question)
-            ->get();
-        foreach($question_by_category as $question){
-            // dd($question);
-            $quiz->questions()->attach($question);
-        }
-
-        flash()->addSuccess('Question added');
-        return redirect()->route('quiz.edit',  $quiz_data['id']);
+        flash()->addSuccess('Quiz Name Updated');
+        // return redirect()->route('quiz.edit',  $quiz_data['id']);
+        return redirect()->route('quiz.index');
     }
 
     /**
@@ -119,6 +112,7 @@ class QuizController extends Controller
     public function quizSubmit(Request $request){
 
         $result_data = $request->all();
+        // dd($result_data);
         $points = 0;
         $percentage = 0;
         $quiz = Quiz::find($result_data['quiz_id']);
@@ -154,7 +148,7 @@ class QuizController extends Controller
             }
         }
 
-         $result_data['user_id'] = auth()->id();
+        $result_data['user_id'] = auth()->id();
 
         $result = Result::create([
             'score' => $points,
@@ -180,11 +174,40 @@ class QuizController extends Controller
             'percentage'=> $finded_result->percentage,
         ];
 
-        Mail::send('emails.result_notification', $messageData, function($message) use ($email){
-                $message->to($email)->subject('Check your result');
-            });
+        // Mail::to($messageData['email'])->send( new ResultNotifyMail($messageData));
+        SendResultMail::dispatch($messageData);
 
         flash()->addSuccess('Exam Completed, Check your Mail');
         return redirect()->route('result.show', $result_id);
+    }
+
+    public function viewAddQuestion($id){
+        $quiz = Quiz::findOrFail($id);
+        // dd($quiz);
+        $categories = Category::get();
+        return view('quizz.add-question',[
+            'quiz' => $quiz,
+            'categories' => $categories,
+        ]);
+    }
+
+    public function addQuestion(Request $request){
+        $quiz_data = $request->all();
+        $category_id = $quiz_data['category_id'];
+        $quiz_id = $quiz_data['quiz_id'];
+        $category = Category::findOrFail($category_id);
+        $quiz = Quiz::findOrFail($quiz_id);
+        $category_name = $category->name;
+        $total_question = $quiz_data['total_question'];
+        $question_by_category = Question::where('category', $category_name)
+            ->inRandomOrder()
+            ->take($total_question)
+            ->get();
+        foreach($question_by_category as $question){
+            $quiz->questions()->attach($question);
+        }
+
+        flash()->addSuccess('Question added');
+        return redirect()->route('quiz.index');
     }
 }

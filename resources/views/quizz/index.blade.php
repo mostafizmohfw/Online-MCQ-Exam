@@ -21,18 +21,22 @@
                             <tr class="bg-gray-200 rounded-t">
                                 <th class="text-left border px-4 py-1">Sl:</th>
                                 <th class="text-left border px-4 py-1">Quiz Name</th>
+                                <th class="text-left border px-4 py-1">No of Question</th>
                                 <th class="text-left border px-4 py-1">Add Question</th>
                                 <th class="text-left border px-4 py-1">Start Exam:</th>
+                                <th class="text-left border px-4 py-1">Edit Quiz:</th>
                                 <th class="text-left border px-4 py-1">Remove:</th>
                             </tr>
                             @foreach ($quizzs as $quiz)
                                 <tr>
                                     <td class="text-left border px-4 py-1">{{ $quiz->id }}</td>
                                     <td class="text-left border px-4 py-1">{{ $quiz->name }}</td>
+                                    <td class="text-left border px-4 py-1">{{ $quiz->questions->count() }}</td>
+
                                     <td class="text-left border px-4 py-1">
                                         <div class="flex jtext-left items-center space-x-2">
                                             <a class="bg-green-600 text-white py-1 px-2 rounded"
-                                                href="{{ route('quiz.edit', $quiz->id) }}">
+                                                href="{{ route('viewAddQuestion', $quiz->id) }}">
                                                 Add Question
                                             </a>
                                         </div>
@@ -42,6 +46,14 @@
                                             <a class="bg-orange-600 text-white py-1 px-2 rounded"
                                                 href="{{ route('quiz.show', $quiz->id) }}">
                                                 Start
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td class="text-left border px-4 py-1">
+                                        <div class="flex jtext-left items-center space-x-2">
+                                            <a class="bg-green-600 text-white py-1 px-2 rounded"
+                                                href="{{ route('quiz.edit', $quiz->id) }}">
+                                                Edit Quiz
                                             </a>
                                         </div>
                                     </td>

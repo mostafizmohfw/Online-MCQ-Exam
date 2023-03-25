@@ -26,25 +26,8 @@
                             <input type="hidden" class="primary-input w-full mb-3" name="id"
                                 value="{{ $quiz->id }}" />
                         </div>
-                        <div class="flex w-full align-middle items-center gap-10">
-                            <div class="text-gray-500 gap-3 mt-4 w-1/3">
-                                <label class="primary-label">Select Category:</label>
-                                <select class="w-full" name="category_id">
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="text-gray-500 gap-3 mt-4 w-1/3">
-                                <label class="primary-label">Number of Question:</label>
-                                <select class="w-full" name="total_question">
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                </select>
-                            </div>
-                        </div>
                         <div class="text-gray-500 gap-3 mt-4 w-1/3 ">
-                            <button type="submit" class="primary-btn py-2">Insert Question</button>
+                            <button type="submit" class="primary-btn py-2">Update</button>
                         </div>
                     </form>
                 </div>

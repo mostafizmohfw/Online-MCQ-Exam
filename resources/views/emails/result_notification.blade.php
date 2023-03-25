@@ -12,13 +12,14 @@
 <body>
     <div class="max-w-7xl mx-auto ">
         <div class="">
-            <p class="mb-3"><span>Dear</span> <span class="text-orange-500">{{ $name }}</span>,</p>
+            <p class="mb-3"><span>Dear</span> <span class="text-orange-500">{{ $messageData['name'] }}</span>,</p>
         </div>
         <div class="text-justify">
             You have successsfully complete the quiz.<br />
-            Your score is {{ $score }} and Marks Percentage is {{ $percentage }}.<br />
+            Your score is {{ $messageData['score'] }} and Marks Percentage is {{ $messageData['percentage'] }}.<br />
             Don't forget to download your certificate.<br />
-            Login in and <a href="{{ route('generate.pdf', $id) }}">Click the link</a> to download certificate.
+            Login in and <a href="{{ route('generate.pdf', $messageData['id']) }}">Click the link</a> to download
+            certificate.
         </div>
         <div class="mt-3">
             <p>
