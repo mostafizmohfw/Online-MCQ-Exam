@@ -34,8 +34,6 @@ class PdfController extends Controller
             'result' => $result
         ]));
 
-        Storage::disk('public')->put($name, $document->Output($name, "S"));
-
-        return Storage::disk('public')->download($name, 'Request', $header);
+        $document->Output();
     }
 }
